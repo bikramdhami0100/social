@@ -1,6 +1,7 @@
 import { Webhook } from 'svix'
 import { headers } from 'next/headers'
 import { WebhookEvent } from '@clerk/nextjs/server'
+import { User } from '@/app/mongodb/userSchema'
 
 export async function POST(req: Request) {
 
@@ -50,7 +51,21 @@ export async function POST(req: Request) {
   // Do something with the payload
   // For this guide, you simply log the payload to the console
   const { id } = evt.data;
+
+  //user create in mongodb
   const eventType = evt.type;
+  if (eventType=="user.created") {
+    const {username,email_addresses,image_url,first_name,last_name,password_enabled}=evt.data;
+    const user=new User({
+      username:username,
+      email:email_addresses,
+      profilePicture:image_url,
+      bio:""
+    });
+  await  user.save()
+  return new Response(user, { status: 200 })
+  }
+ 
   console.log(`Webhook with and ID of ${id} and type of ${eventType}`)
   console.log('Webhook body:', body)
 
