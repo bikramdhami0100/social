@@ -7,6 +7,7 @@ export async function GET(req:NextRequest) {
    
     
     const authuser=new User(  { username: 'user1', email: 'user1@example.com', password: 'password1', profilePicture: '', bio: 'Bio for user1' })
+    const user=authuser.save();
     return NextResponse.json({ message: "Authorized user",user:authuser });
    
 }

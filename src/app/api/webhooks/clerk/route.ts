@@ -61,7 +61,8 @@ export async function POST(req: Request) {
       username:username,
       email:email_addresses[0].email_address,
       profilePicture:image_url,
-      bio:""
+      bio:"",
+      password:"123"
     });
   await  user.save()
   if (user) {
