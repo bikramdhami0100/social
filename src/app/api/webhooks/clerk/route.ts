@@ -58,7 +58,7 @@ export async function POST(req: Request) {
     const {username,email_addresses,image_url,first_name,last_name,password_enabled}=evt.data;
     const user=new User({
       username:username,
-      email:email_addresses,
+      email:email_addresses[0].email_address,
       profilePicture:image_url,
       bio:""
     });
