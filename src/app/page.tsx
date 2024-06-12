@@ -5,19 +5,13 @@ import { UploadButton } from "@/utils/uploadthing";
 import Image from "next/image";
 
 export default function Home() {
-  const { isLoaded, userId, sessionId, getToken } = useAuth();
- const user=useUser();
- console.log(user);
-  // In case the user signs out while on the page.
-  if (!isLoaded || !userId) {
-    return null;
-  }
+
   return (
   <div>
      <div>
-      Hello, {userId} your current active session is {sessionId}
+ hello world
     </div>
-       {/* <UploadButton
+       <UploadButton
         endpoint="imageUploader"
         onClientUploadComplete={(res) => {
           // Do something with the response
@@ -28,7 +22,7 @@ export default function Home() {
           // Do something with the error.
           alert(`ERROR! ${error.message}`);
         }}
-      /> */}
+      />
   </div>
   );
 }
