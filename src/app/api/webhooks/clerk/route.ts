@@ -1,6 +1,6 @@
 import { Webhook } from 'svix'
 import { headers } from 'next/headers'
-import { WebhookEvent } from '@clerk/nextjs/server'
+import { WebhookEvent, clerkClient } from '@clerk/nextjs/server'
 import { User } from '@/app/mongodb/userSchema'
 
 export async function POST(req: Request) {
@@ -55,14 +55,22 @@ export async function POST(req: Request) {
   //user create in mongodb
   const eventType = evt.type;
   if (eventType=="user.created") {
-    const {username,email_addresses,image_url,first_name,last_name,password_enabled}=evt.data;
+    const {id,username,email_addresses,image_url,first_name,last_name,password_enabled}=evt.data;
     const user=new User({
+      clerkId:id,
       username:username,
       email:email_addresses[0].email_address,
       profilePicture:image_url,
       bio:""
     });
   await  user.save()
+  if (user) {
+     await clerkClient.users.updateUserMetadata(id,{
+      publicMetadata:{
+        userId:user._id
+      }
+     })
+  }
   return new Response(user, { status: 200 })
   }
  
