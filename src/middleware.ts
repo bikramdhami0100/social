@@ -1,8 +1,8 @@
-import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+import { authMiddleware, clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
  
-export default clerkMiddleware();
+// export default clerkMiddleware();
 
 
 // This function can be marked `async` if using `await` inside
@@ -14,27 +14,14 @@ export default clerkMiddleware();
 // export const config = {
 //   matcher: '/about/:path*',
 // }
-const isProtectedRoute = createRouteMatcher([
-    '/dashboard(.*)',
+// const isProtectedRoute = createRouteMatcher([
+//     '/dashboard(.*)',
     
-  ]);
+//   ]);
+export default authMiddleware({
+  publicRoutes:["/","/sign-in","/api/webhooks/clerk"]
+});
 export const config = {
   matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
 };
-// import {
-//     clerkMiddleware,
-//     createRouteMatcher
-//   } from '@clerk/nextjs/server';
-  
-//   const isProtectedRoute = createRouteMatcher([
-//     '/dashboard(.*)',
-//     '/forum(.*)',
-//   ]);
-  
-//   export default clerkMiddleware((auth, req) => {
-//     if (isProtectedRoute(req)) auth().protect();
-//   });
-  
-//   export const config = {
-//     matcher: ['/((?!.*\\..*|_next).*)', '/', '/(api|trpc)(.*)'],
-//   };
+
